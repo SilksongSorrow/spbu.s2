@@ -12,8 +12,8 @@ public class TestUtils{
      * @param seed for the pseudo random generator
      * @return random generated int array. It will be the same for the same seed and size.
      */
-    public static int[] generateRandomIntArray(int size,long seed){
-        int[] array=new int[size];
+    public static Integer[] generateRandomIntArray(int size,long seed){
+        Integer[] array=new Integer[size];
         Random rnd=new Random(seed);
         for(int i=0;i<array.length;i++){
             array[i]=rnd.nextInt();

@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class IntSort{
-    public static void sort(int[] array){
+public class FGSort{
+    public static <T extends Comparable<? super T>> void sort(T[] array){
         Arrays.sort(array);
     }
 
-    public static void sort(List<Integer> list){
+    public static <T extends Comparable<? super T>> void sort(List<T> list){
         Collections.sort(list);
     }
 }

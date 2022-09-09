@@ -7,17 +7,17 @@ public interface Matrix{
     /**
      * однопоточное умножение матриц должно поддерживаться для всех 4-х вариантов
      *
-     * @param o
+     * @param m
      * @return
      */
-    Matrix mul(Matrix o);
+    Matrix mul(Matrix m);
 
     /**
      * многопоточное умножение матриц
      *
-     * @param o
+     * @param m
      * @return
      */
-    Matrix dMul(Matrix o);
+    Matrix dMul(Matrix m);
 
 }

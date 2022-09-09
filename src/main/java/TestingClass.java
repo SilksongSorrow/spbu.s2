@@ -1,13 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Random;
 
-/**
- * Пример программы на Java
- */
-// название главного класса, обычно совпадает с названием программы
-public class HelloWorld{
+public class TestingClass{
     public static void main(String[] args) throws IOException{
         System.out.println("Start process");
         run1();

@@ -16,22 +16,22 @@ public class DenseMatrix implements Matrix{
     /**
      * однопоточное умножение матриц должно поддерживаться для всех 4-х вариантов
      *
-     * @param o
+     * @param m
      * @return
      */
     @Override
-    public Matrix mul(Matrix o){
+    public Matrix mul(Matrix m){
         return null;
     }
 
     /**
      * многопоточное умножение матриц
      *
-     * @param o
+     * @param m
      * @return
      */
     @Override
-    public Matrix dMul(Matrix o){
+    public Matrix dMul(Matrix m){
         return null;
     }
 

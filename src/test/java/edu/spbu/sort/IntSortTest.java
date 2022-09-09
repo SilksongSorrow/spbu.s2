@@ -2,18 +2,16 @@ package edu.spbu.sort;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
 
-import static edu.spbu.TestUtils.generateRandomIntArray;
-import static edu.spbu.TestUtils.testN;
+import static edu.spbu.TestUtils.*;
 import static org.junit.Assert.*;
 
 public class IntSortTest{
     public static final int SEED=1;
-    public static final int ARRAY_SIZE=1000_000;
+    public static final int ARRAY_SIZE=10_000_000;
     private static final Supplier<Long> testArray,testList;
 
     @Test
@@ -27,11 +25,11 @@ public class IntSortTest{
 
     static{
         testArray=()->{
-            int[] array=generateRandomIntArray(ARRAY_SIZE,SEED);
+            Integer[] array=generateRandomIntArray(ARRAY_SIZE,SEED);
 
             //сортируем массив и замеряем время работы
             long startTime=System.nanoTime();
-            IntSort.sort(array);
+            FGSort.sort(array);
             long estimatedTime=System.nanoTime()-startTime;
 
             // проверяем правильность сортировки
@@ -42,15 +40,13 @@ public class IntSortTest{
             return estimatedTime;
         };
         testList=()->{
-            int[] array=generateRandomIntArray(ARRAY_SIZE,SEED);
-            List<Integer> list=new ArrayList<>(ARRAY_SIZE);
-            for(int i: array)list.add(i);
+            Integer[] array=generateRandomIntArray(ARRAY_SIZE,SEED);
+            List<Integer> list=Arrays.asList(array);
 
             //сортируем список и замеряем время работы
             long startTime=System.nanoTime();
-            IntSort.sort(list);
+            FGSort.sort(list);
             long estimatedTime=System.nanoTime()-startTime;
-            System.out.println("Execution time(ms) - testSortList(): "+(estimatedTime/1000000));
 
             // проверяем правильность сортировки
             for(int i=1;i<list.size();i++){
