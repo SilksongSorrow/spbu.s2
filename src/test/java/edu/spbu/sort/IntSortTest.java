@@ -1,5 +1,6 @@
 package edu.spbu.sort;
 
+import edu.spbu.TestUtils;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -11,16 +12,16 @@ import static org.junit.Assert.*;
 
 public class IntSortTest{
     public static final int SEED=1;
-    public static final int ARRAY_SIZE=10_000_000;
+    public static final int ARRAY_SIZE=100_000;
     private static final Supplier<Long> testArray,testList;
 
     @Test
     public void testSortArray(){
-        System.out.println("Round execution time(ms) - testSortArray(): "+(testN(testArray,1)/1000000));
+        TestUtils.printTest("testSortArray",testN(testArray,100));
     }
     @Test
     public void testSortList(){
-        System.out.println("Round execution time(ms) - testSortList(): "+(testN(testList,1)/1000000));
+        TestUtils.printTest("testSortList",testN(testList,100));
     }
 
     static{

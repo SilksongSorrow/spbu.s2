@@ -7,9 +7,9 @@ public class SparseMatrix implements Matrix{
     /**
      * загружает матрицу из файла
      *
-     * @param fileName
+     * @param filename
      */
-    public SparseMatrix(String fileName){
+    public SparseMatrix(String filename){
 
     }
 

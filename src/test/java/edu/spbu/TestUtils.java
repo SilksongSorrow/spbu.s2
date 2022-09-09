@@ -27,4 +27,8 @@ public class TestUtils{
         }
         return estimatedTime/size;
     }
+
+    public static void printTest(String name,long t){
+        System.out.println("Execution time(ms) - "+name+"(): "+t/1000*0.001);
+    }
 }

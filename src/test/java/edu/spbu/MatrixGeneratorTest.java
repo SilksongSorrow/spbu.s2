@@ -1,29 +1,26 @@
 package edu.spbu;
 
-import edu.spbu.MatrixGenerator;
 import org.junit.After;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class MatrixGeneratorTest{
-    public static final String fileName="test.txt";
+    public static final String filename="test.txt";
 
     @After
     public void cleanUp(){
-        File f=new File(fileName);
+        File f=new File(filename);
         if(f.exists()) f.delete();
     }
 
     @Test
-    public void testGenerate() throws Exception{
-        new MatrixGenerator(1,3,fileName,10).generate();
-        BufferedReader reader=new BufferedReader(new FileReader(fileName));
+    public void testGenerate() throws IOException{
+        new MatrixGenerator(1,3,filename,10).generate();
+        BufferedReader reader=new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
         int lineCount=0;
         int emptyLineCount=0;
         for(String line=reader.readLine();line!=null;line=reader.readLine()){
