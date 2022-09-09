@@ -14,7 +14,7 @@ public class SparseMatrix implements Matrix{
     }
 
     /**
-     * однопоточное умнджение матриц должно поддерживаться для всех 4-х вариантов
+     * однопоточное умножение матриц должно поддерживаться для всех 4-х вариантов
      *
      * @param o
      * @return
@@ -31,12 +31,12 @@ public class SparseMatrix implements Matrix{
      * @return
      */
     @Override
-    public Matrix dmul(Matrix o){
+    public Matrix dMul(Matrix o){
         return null;
     }
 
     /**
-     * спавнивает с обоими вариантами
+     * сравнивает с обоими вариантами
      *
      * @param o
      * @return

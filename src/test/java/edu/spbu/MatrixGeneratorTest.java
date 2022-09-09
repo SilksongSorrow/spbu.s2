@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class MatrixGeneratorTest{
-    String fileName="test.txt";
+    public static final String fileName="test.txt";
 
     @After
     public void cleanUp(){

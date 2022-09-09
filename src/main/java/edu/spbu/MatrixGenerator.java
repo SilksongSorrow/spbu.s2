@@ -27,10 +27,10 @@ public class MatrixGenerator{
         this.size=size;
         this.file=file;
         rnd=new Random(seed);
-        emptyRow=Collections.nCopies(size,"0").stream().collect(Collectors.joining(" "));
+        emptyRow=String.join(" ",Collections.nCopies(size,"0"));
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         try{
             new MatrixGenerator(SEED1,EMPTY_ROW_FRACTION,MATRIX1_NAME,SIZE).generate();
             new MatrixGenerator(SEED2,EMPTY_ROW_FRACTION,MATRIX2_NAME,SIZE).generate();
@@ -39,6 +39,7 @@ public class MatrixGenerator{
             System.out.println("Fail to generate matrix file: "+e);
         }
     }
+
 
     private static void testPerformance(){
         // Uncomment the code to Test your library

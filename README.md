@@ -18,7 +18,7 @@
 1. Настройка github
    1. Создать пользователя на github
    2. "fork" https://github.com/artem-aliev/java-template/ репозиторий в свое пространство
-   3. Клонировать его на рабочую машиную
+   3. Клонировать его на рабочую машинную
    4. провести изменения кода сделать "commit" и "push"
    5. Прислать преподавателю ссылку на созданный репозиторий
 2. Настройка IntelliJ/Eclipse
@@ -26,14 +26,14 @@
    2. Запустить unit test [IntSortTest.java](https://github.com/artem-aliev/java-template/blob/master/src/test/java/edu/spbu/sort/IntSortTest.java)
 3. Знакомимся с Java. Сортировка
    1. Заменить в файле [IntSort.java](https://github.com/artem-aliev/java-template/blob/master/src/main/java/edu/spbu/sort/IntSort.java) стандартный вызов на свой собственный алгоритм. 
-       Подходит любой алгоритм с средней вычислительной сложностью n*log(n)
+       Подходит любой алгоритм со средней вычислительной сложностью n*log(n)
 4. Объектно-ориентированное программирование.
    1. [Matrix.java](https://github.com/artem-aliev/java-template/blob/master/src/main/java/edu/spbu/matrix/Matrix.java) интерфейс матрицы с одной операцией: умножение
    2. Задача: создать два класса DenseMatrix и SparseMatrix: плотная и разряженная матрица с соответствующими способами хранения
-   3. Имплементировать метод "mul" умножение таким образом что была возможность умножения разных типов матриц друг на друга
-   4. Написать юнит тесты лоя всех вариантов умножения. Пример: [MatrixTest.java](https://github.com/artem-aliev/java-template/blob/master/src/test/java/edu/spbu/matrix/MatrixTest.java)
+   3. Имплементировать метод "mul" умножение таким образом, что была возможность умножения разных типов матриц друг на друга
+   4. Написать юнит тесты для всех вариантов умножения. Пример: [MatrixTest.java](https://github.com/artem-aliev/java-template/blob/master/src/test/java/edu/spbu/matrix/MatrixTest.java)
 5. Многопоточное программирование
-   1. Добавить в  DenseMatrix и SparseMatrix метод умножающий матрицы в несколько потоков
+   1. Добавить в DenseMatrix и SparseMatrix метод умножающий матрицы в несколько потоков
    2. Написать тесты, убедиться в росте скорости при увеличении количества потоков
 6. Сетевое программирование
    1. Написать простой http server способный отдавать html файлы из папки

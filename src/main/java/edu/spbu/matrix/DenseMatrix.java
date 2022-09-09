@@ -7,14 +7,14 @@ public class DenseMatrix implements Matrix{
     /**
      * загружает матрицу из файла
      *
-     * @param fileName
+     * @param filename имя файла
      */
-    public DenseMatrix(String fileName){
+    public DenseMatrix(String filename){
 
     }
 
     /**
-     * однопоточное умнджение матриц должно поддерживаться для всех 4-х вариантов
+     * однопоточное умножение матриц должно поддерживаться для всех 4-х вариантов
      *
      * @param o
      * @return
@@ -31,12 +31,12 @@ public class DenseMatrix implements Matrix{
      * @return
      */
     @Override
-    public Matrix dmul(Matrix o){
+    public Matrix dMul(Matrix o){
         return null;
     }
 
     /**
-     * спавнивает с обоими вариантами
+     * сравнивает с обоими вариантами
      *
      * @param o
      * @return

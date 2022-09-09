@@ -8,9 +8,6 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by artemaliev on 07/09/15.
- */
 public class IntSortTest{
     public static final int SEED=1;
     public static final int ARRAY_SIZE=10000000;
@@ -21,7 +18,7 @@ public class IntSortTest{
      * @return random generated int array. It will be the same for the same seed and size.
      */
     int[] generateRandomIntArray(int size,long seed){
-        int array[]=new int[size];
+        int[] array=new int[size];
         Random rnd=new Random(seed);
         for(int i=0;i<array.length;i++){
             array[i]=rnd.nextInt();
@@ -30,8 +27,8 @@ public class IntSortTest{
     }
 
     @Test
-    public void testSortArray() throws Exception{
-        int array[]=generateRandomIntArray(ARRAY_SIZE,SEED);
+    public void testSortArray(){
+        int[] array=generateRandomIntArray(ARRAY_SIZE,SEED);
 
         IntSort.sort(array);
 
@@ -44,11 +41,11 @@ public class IntSortTest{
     }
 
     @Test
-    public void testSortList() throws Exception{
-        int array[]=generateRandomIntArray(ARRAY_SIZE,SEED);
-        List<Integer> list=new ArrayList<Integer>(ARRAY_SIZE);
+    public void testSortList(){
+        int[] array=generateRandomIntArray(ARRAY_SIZE,SEED);
+        List<Integer> list=new ArrayList<>(ARRAY_SIZE);
         for(int i: array){
-            list.add(Integer.valueOf(i));
+            list.add(i);
         }
 
         //сортируем массив и замеряем время работы
