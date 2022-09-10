@@ -6,7 +6,9 @@ package edu.spbu;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class TestUtils{
+public final class TestUtils{
+    private TestUtils(){ /* no instance */ }
+
     /**
      * @param size array size
      * @return random generated int array. It will be the same for the same seed and size.
@@ -20,6 +22,7 @@ public class TestUtils{
         }
         return array;
     }
+
     public static Integer[] generateRandomIntArray2(int size){
         Integer[] array=new Integer[size*2];
         Random rnd=new Random();
@@ -29,6 +32,7 @@ public class TestUtils{
         }
         return array;
     }
+
     public static long testN(Supplier<Long> s,int size){
         long estimatedTime=0;
         for(int i=0;i<size;i++){
@@ -38,6 +42,6 @@ public class TestUtils{
     }
 
     public static void printTest(String name,long t){
-        System.out.println("Execution time(ms) - "+name+"(): "+t/1000*0.001);
+        System.out.println("Execution time - "+name+"(): "+t/1000*0.001+" ms");
     }
 }

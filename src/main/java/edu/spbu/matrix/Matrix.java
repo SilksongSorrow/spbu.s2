@@ -5,7 +5,9 @@ package edu.spbu.matrix;
  */
 public interface Matrix{
     int get(int x,int y);
+
     int width();
+
     int height();
 
     /**
@@ -23,4 +25,8 @@ public interface Matrix{
      * @return
      */
     Matrix dMul(Matrix m);
+
+    default boolean equalsWH(Matrix m){
+        return m.width()!=width() || m.height()!=height();
+    }
 }

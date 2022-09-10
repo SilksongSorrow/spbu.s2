@@ -21,14 +21,17 @@ public class MatrixTest{
     public void mulDD(){
         TestUtils.printTest("mulDD",testN(test.get(getID(D,D)),1));
     }
+
     @Test
     public void mulDS(){
         TestUtils.printTest("mulDS",testN(test.get(getID(D,S)),1));
     }
+
     @Test
     public void mulSD(){
         TestUtils.printTest("mulSD",testN(test.get(getID(S,D)),1));
     }
+
     @Test
     public void mulSS(){
         TestUtils.printTest("mulSS",testN(test.get(getID(S,S)),1));
@@ -39,6 +42,7 @@ public class MatrixTest{
     private static final LinkedList<Supplier<Long>> test;
 
     private static int id_i;
+
     static{
         test=new LinkedList<>();
         for(id_i=0;id_i<4;id_i++){

@@ -14,13 +14,24 @@ public class MatrixGenerator{
 
     public static final String MATRIX1_NAME="m1.txt";
     public static final String MATRIX2_NAME="m2.txt";
-    public static final int SIZE=2000;
+    public static final int SIZE=200;
 
     private final int emptyRowFraction;
     private final int size;
     private final String emptyRow;
     private final Random rnd;
     private final String filename;
+
+    private int maxN=10_000;
+
+    public MatrixGenerator(int seed,int emptyRowFraction,String filename,int size,int maxN){
+        this.emptyRowFraction=emptyRowFraction;
+        this.size=size;
+        this.filename=filename;
+        this.maxN=maxN;
+        rnd=new Random(seed);
+        emptyRow=String.join(" ",Collections.nCopies(size,"0"));
+    }
 
     public MatrixGenerator(int seed,int emptyRowFraction,String filename,int size){
         this.emptyRowFraction=emptyRowFraction;
@@ -34,34 +45,9 @@ public class MatrixGenerator{
         try{
             new MatrixGenerator(SEED1,EMPTY_ROW_FRACTION,MATRIX1_NAME,SIZE).generate();
             new MatrixGenerator(SEED2,EMPTY_ROW_FRACTION,MATRIX2_NAME,SIZE).generate();
-            testPerformance();
         }catch(IOException e){
             System.out.println("Fail to generate matrix file: "+e);
         }
-    }
-
-
-    private static void testPerformance(){
-        // Uncomment the code to Test your library
-    /*
-    System.out.println("Starting loading dense matrices");
-    Matrix m1 = new DenseMatrix(MATRIX1_NAME);
-    System.out.println("1 loaded");
-    Matrix m2 = new DenseMatrix(MATRIX2_NAME);
-    System.out.println("2 loaded");
-    long start = System.currentTimeMillis();
-    m1.mul(m2);
-    System.out.println("Dense Matrix time: " +(System.currentTimeMillis() - start));
-
-    System.out.println("Starting loading sparse matrices");
-    m1 = new SparseMatrix(MATRIX1_NAME);
-    System.out.println("1 loaded");
-    m2 = new SparseMatrix(MATRIX2_NAME);
-    System.out.println("2 loaded");
-    start = System.currentTimeMillis();
-    m1.mul(m2);
-    System.out.println("Sparse Matrix time: " +(System.currentTimeMillis() - start));
-    */
     }
 
     public void generate() throws IOException{
@@ -75,7 +61,7 @@ public class MatrixGenerator{
     }
 
     private String generateRow(){
-        return rnd.ints(0,emptyRowFraction).limit(size).mapToObj(r->(r==0) ? ""+rnd.nextInt(10000):"0").collect(Collectors.joining(" "));
+        return rnd.ints(0,emptyRowFraction).limit(size).mapToObj(r->(r==0) ? ""+rnd.nextInt(maxN):"0").collect(Collectors.joining(" "));
     }
 
 }

@@ -13,17 +13,17 @@ public class FGSort{
             IntInt lr=lrs.removeLast();
             int l=lr.x();
             int r=lr.y();
-            if(r-l<=0)continue;
+            if(r-l<=0) continue;
             if(r-l==1){
-                if(array[l].compareTo(array[r])>0)swap(array,l,r);
+                if(array[l].compareTo(array[r])>0) swap(array,l,r);
                 continue;
             }
             int n=(l+r)/2;
             T x=array[n];
-            int li=l,ri=r;
+            int li=l, ri=r;
             while(li<ri){
-                while(array[li].compareTo(x)<0)li++;
-                while(array[ri].compareTo(x)>0)ri--;
+                while(array[li].compareTo(x)<0) li++;
+                while(array[ri].compareTo(x)>0) ri--;
 
                 if(li<ri){
                     swap(array,li,ri);
@@ -50,17 +50,17 @@ public class FGSort{
             IntInt lr=lrs.removeLast();
             int l=lr.x();
             int r=lr.y();
-            if(r-l<=0)continue;
+            if(r-l<=0) continue;
             if(r-l==1){
-                if(list.get(l).compareTo(list.get(r))>0)swap(list,l,r);
+                if(list.get(l).compareTo(list.get(r))>0) swap(list,l,r);
                 continue;
             }
             int n=(l+r)/2;
             T x=list.get(n);
-            int li=l,ri=r;
+            int li=l, ri=r;
             while(li<ri){
-                while(list.get(li).compareTo(x)<0)li++;
-                while(list.get(ri).compareTo(x)>0)ri--;
+                while(list.get(li).compareTo(x)<0) li++;
+                while(list.get(ri).compareTo(x)>0) ri--;
 
                 if(li<ri){
                     swap(list,li,ri);
@@ -72,6 +72,7 @@ public class FGSort{
             lrs.addLast(new IntInt(li,r));
         }
     }
+
     private static <T> void swap(List<T> list,int l,int r){
         T sav=list.get(r);
         list.set(r,list.get(l));

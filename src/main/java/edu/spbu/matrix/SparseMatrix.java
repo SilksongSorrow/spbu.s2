@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
+import static edu.spbu.matrix.DSMatrixUtils.*;
+
 /**
  * Разряженная матрица
  */
 public class SparseMatrix implements Matrix{
     private final List<SparseMatrixValue> values;
-    private final int width,height;
+    private final int width, height;
 
     /**
      * загружает матрицу из файла
@@ -27,25 +29,25 @@ public class SparseMatrix implements Matrix{
             e.printStackTrace();
             throw new IllegalArgumentException("CANT RUN FROM: "+filename);
         }
-        width=in.get(0).length();
+        width=new StringTokenizer(in.get(0)).countTokens();
         height=in.size();
         values=new LinkedList<>();
 
         int jj=0;
-        String s=in.remove(0);
-        while(s!=null){
+        while(in.size()>0){
+            String s=in.remove(0);
             StringTokenizer st=new StringTokenizer(s," ");
             int ii=0;
             while(st.hasMoreTokens()){
                 String t=st.nextToken();
-                if(t.equals("0"))continue;
+                if(t.equals("0")) continue;
                 values.add(new SparseMatrixValue(ii,jj,Integer.parseInt(t)));
                 ii++;
             }
-            s=in.remove(0);
             jj++;
         }
     }
+
     public SparseMatrix(List<SparseMatrixValue> values,int width,int height){
         this.values=values;
         this.width=width;
@@ -55,8 +57,7 @@ public class SparseMatrix implements Matrix{
 
     @Override
     public int get(int x,int y){
-        return values.stream().filter(v->v.x()==x && v.y()==y).
-                findFirst().orElse(SparseMatrixValue.ZERO).value();
+        return values.stream().filter(v->v.x()==x && v.y()==y).findFirst().orElse(SparseMatrixValue.ZERO).value();
     }
 
     @Override
@@ -73,7 +74,9 @@ public class SparseMatrix implements Matrix{
      */
     @Override
     public Matrix mul(Matrix m){
-        return null;
+        if(m instanceof SparseMatrix) return mulSparse((SparseMatrix)m,this);
+        if(m instanceof DenseMatrix) return mulDenseSparse((DenseMatrix)m,this);
+        throw new IllegalArgumentException("wrong type: "+m);
     }
 
     /**
@@ -84,7 +87,9 @@ public class SparseMatrix implements Matrix{
      */
     @Override
     public Matrix dMul(Matrix m){
-        return null;
+        if(m instanceof SparseMatrix) return dMulSparse((SparseMatrix)m,this);
+        if(m instanceof DenseMatrix) return dMulDenseSparse((DenseMatrix)m,this);
+        throw new IllegalArgumentException("wrong type: "+m);
     }
 
     /**
@@ -95,31 +100,41 @@ public class SparseMatrix implements Matrix{
      */
     @Override
     public boolean equals(Object o){
-        if(!(o instanceof Matrix))return false;
-        Matrix m=(Matrix)o;
-        if(m.width()!=width() || m.height()!=height())return false;
-        if(o instanceof SparseMatrix)return equalsSparse((SparseMatrix)o);
-        if(o instanceof DenseMatrix)return equalsDense((DenseMatrix)o);
+        if(!(o instanceof Matrix)) return false;
+        if(!equalsWH((Matrix)o)) return false;
+        if(o instanceof SparseMatrix) return equalsSparse((SparseMatrix)o);
+        if(o instanceof DenseMatrix) return equalsDense((DenseMatrix)o);
         throw new IllegalArgumentException("wrong type of matrix: "+o);
     }
+
     private boolean equalsSparse(SparseMatrix other){
         LinkedList<SparseMatrixValue> list1=new LinkedList<>(values);
         LinkedList<SparseMatrixValue> list2=new LinkedList<>(other.values);
-        if(list1.size()!=list2.size())return false;
+        if(list1.size()!=list2.size()) return false;
         while(list1.size()>0){
-            if(!list2.remove(list1.removeFirst()))return false;
+            if(!list2.remove(list1.removeFirst())) return false;
         }
         return true;
     }
+
     private boolean equalsDense(DenseMatrix other){
         return toDense(this).equals(other);
     }
 
-    public static DenseMatrix toDense(SparseMatrix m){
-        int[][] mx=new int[m.width][m.height];
-        for(SparseMatrixValue v: m.values){
-            mx[v.x()][v.y()]=v.value();
+    public List<SparseMatrixValue> values(){
+        return new LinkedList<>(values);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                sb.append(get(i,j));
+                sb.append(" ");
+            }
+            sb.append("\n");
         }
-        return new DenseMatrix(mx,m.width,m.height);
+        return sb.toString();
     }
 }

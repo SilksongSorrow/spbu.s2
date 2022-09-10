@@ -13,21 +13,24 @@ import static org.junit.Assert.*;
 
 public class IntSortTest{
     public static final int ARRAY_SIZE=10_000;
-    private static final Supplier<Long> testArray,testList;
-    private static final Supplier<Long> testStArray,testStList;
+    private static final Supplier<Long> testArray, testList;
+    private static final Supplier<Long> testStArray, testStList;
 
     @Test
     public void testSortArray(){
         TestUtils.printTest("testSortArray",testN(testArray,100));
     }
+
     @Test
     public void testSortList(){
         TestUtils.printTest("testSortList",testN(testList,100));
     }
+
     @Test
     public void testSortStArray(){
         TestUtils.printTest("testSortStArray",testN(testStArray,100));
     }
+
     @Test
     public void testSortStList(){
         TestUtils.printTest("testSortStList",testN(testStList,100));
@@ -45,8 +48,7 @@ public class IntSortTest{
             // проверяем правильность сортировки
             for(int i=1;i<array.length;i++){
                 if(array[i-1]>array[i]){
-                    throw new IllegalArgumentException(Arrays.toString(array)+
-                            "\nElement "+array[i]+" at "+i+" position is not in the order");
+                    throw new IllegalArgumentException(Arrays.toString(array)+"\nElement "+array[i]+" at "+i+" position is not in the order");
                 }
             }
             return estimatedTime;
@@ -62,8 +64,7 @@ public class IntSortTest{
             // проверяем правильность сортировки
             for(int i=1;i<array.length;i++){
                 if(array[i-1]>array[i]){
-                    throw new IllegalArgumentException(Arrays.toString(array)+
-                            "\nElement "+array[i]+" at "+i+" position is not in the order");
+                    throw new IllegalArgumentException(Arrays.toString(array)+"\nElement "+array[i]+" at "+i+" position is not in the order");
                 }
             }
             return estimatedTime;
@@ -79,8 +80,7 @@ public class IntSortTest{
 
             // проверяем правильность сортировки
             for(int i=1;i<list.size();i++){
-                assertTrue("Element "+list.get(i)+" at "+i+" position is not in the order",
-                        list.get(i-1)<=list.get(i));
+                assertTrue("Element "+list.get(i)+" at "+i+" position is not in the order",list.get(i-1)<=list.get(i));
             }
             return estimatedTime;
         };
@@ -95,8 +95,7 @@ public class IntSortTest{
 
             // проверяем правильность сортировки
             for(int i=1;i<list.size();i++){
-                assertTrue("Element "+list.get(i)+" at "+i+" position is not in the order",
-                        list.get(i-1)<=list.get(i));
+                assertTrue("Element "+list.get(i)+" at "+i+" position is not in the order",list.get(i-1)<=list.get(i));
             }
             return estimatedTime;
         };

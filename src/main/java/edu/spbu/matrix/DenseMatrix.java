@@ -4,17 +4,18 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
+
+import static edu.spbu.matrix.DSMatrixUtils.*;
 
 /**
  * Плотная матрица
  */
 public class DenseMatrix implements Matrix{
     private final int[][] input;
-    private final int width,height;
+    private final int width, height;
 
     /**
      * загружает матрицу из файла
@@ -30,25 +31,24 @@ public class DenseMatrix implements Matrix{
             e.printStackTrace();
             throw new IllegalArgumentException("CANT RUN FROM: "+filename);
         }
-        width=in.get(0).length();
+        width=new StringTokenizer(in.get(0)).countTokens();
         height=in.size();
         input=new int[width][height];
 
         int jj=0;
-        String s=in.remove(0);
-        while(s!=null){
-            StringTokenizer st=new StringTokenizer(s," ");
+        while(in.size()>0){
+            String s=in.remove(0);
+            StringTokenizer st=new StringTokenizer(s);
             int ii=0;
             while(st.hasMoreTokens()){
                 String t=st.nextToken();
-                if(t.equals("0"))continue;
                 input[ii][jj]=Integer.parseInt(t);
                 ii++;
             }
-            s=in.remove(0);
             jj++;
         }
     }
+
     public DenseMatrix(int[][] input,int width,int height){
         this.input=input;
         this.width=width;
@@ -72,7 +72,9 @@ public class DenseMatrix implements Matrix{
      */
     @Override
     public Matrix mul(Matrix m){
-        return null;
+        if(m instanceof DenseMatrix) return mulDense(this,(DenseMatrix)m);
+        if(m instanceof SparseMatrix) return mulDenseSparse(this,(SparseMatrix)m);
+        throw new IllegalArgumentException("wrong type: "+m);
     }
 
     /**
@@ -83,7 +85,9 @@ public class DenseMatrix implements Matrix{
      */
     @Override
     public Matrix dMul(Matrix m){
-        return null;
+        if(m instanceof DenseMatrix) return dMulDense(this,(DenseMatrix)m);
+        if(m instanceof SparseMatrix) return dMulDenseSparse(this,(SparseMatrix)m);
+        throw new IllegalArgumentException("wrong type: "+m);
     }
 
     /**
@@ -94,33 +98,37 @@ public class DenseMatrix implements Matrix{
      */
     @Override
     public boolean equals(Object o){
-        if(!(o instanceof Matrix))return false;
-        Matrix m=(Matrix)o;
-        if(m.width()!=width() || m.height()!=height())return false;
-        if(o instanceof SparseMatrix)return equalsSparse((SparseMatrix)o);
-        if(o instanceof DenseMatrix)return equalsDense((DenseMatrix)o);
+        if(!(o instanceof Matrix)) return false;
+        if(!equalsWH((Matrix)o)) return false;
+        if(o instanceof SparseMatrix) return equalsSparse((SparseMatrix)o);
+        if(o instanceof DenseMatrix) return equalsDense((DenseMatrix)o);
         throw new IllegalArgumentException("wrong type of matrix: "+o);
     }
+
     private boolean equalsDense(DenseMatrix other){
         for(int i=0;i<this.width;i++){
             for(int j=0;j<this.height;j++){
-                if(this.input[i][j]!=other.input[i][j])return false;
+                if(this.input[i][j]!=other.input[i][j]) return false;
             }
         }
         return true;
     }
+
     private boolean equalsSparse(SparseMatrix other){
         //todo think: return toSparse(this).equals(other);
-        return this.equalsDense(SparseMatrix.toDense(other));
+        return this.equalsDense(toDense(other));
     }
 
-    public static SparseMatrix toSparse(DenseMatrix m){
-        LinkedList<SparseMatrixValue> values=new LinkedList<>();
-        for(int i=0;i<m.width;i++){
-            for(int j=0;j<m.height;j++){
-                if(m.input[i][j]!=0)values.add(new SparseMatrixValue(i,j,m.input[i][j]));
+    @Override
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                sb.append(input[i][j]);
+                sb.append(" ");
             }
+            sb.append("\n");
         }
-        return new SparseMatrix(values,m.width,m.height);
+        return sb.toString();
     }
 }
