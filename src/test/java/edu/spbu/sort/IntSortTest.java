@@ -12,7 +12,7 @@ import static edu.spbu.TestUtils.*;
 import static org.junit.Assert.*;
 
 public class IntSortTest{
-    public static final int ARRAY_SIZE=100_000;
+    public static final int ARRAY_SIZE=10_000;
     private static final Supplier<Long> testArray,testList;
     private static final Supplier<Long> testStArray,testStList;
 
