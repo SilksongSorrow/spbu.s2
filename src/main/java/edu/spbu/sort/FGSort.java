@@ -1,17 +1,18 @@
 package edu.spbu.sort;
 
+import edu.spbu.matrix.IntInt;
+
 import java.util.*;
 
 public class FGSort{
     //be slower than primitives, but more universal
     public static <T extends Comparable<? super T>> void sort(T[] array){
-        LinkedList<Integer> ls=new LinkedList<>();
-        ls.add(0);
-        LinkedList<Integer> rs=new LinkedList<>();
-        rs.add(array.length-1);
-        while(ls.size()>0){
-            int l=ls.removeLast();
-            int r=rs.removeLast();
+        LinkedList<IntInt> lrs=new LinkedList<>();
+        lrs.add(new IntInt(0,array.length-1));
+        while(lrs.size()>0){
+            IntInt lr=lrs.removeLast();
+            int l=lr.x();
+            int r=lr.y();
             if(r-l<=0)continue;
             if(r-l==1){
                 if(array[l].compareTo(array[r])>0)swap(array,l,r);
@@ -30,8 +31,8 @@ public class FGSort{
                     ri--;
                 }
             }
-            ls.addLast(l);rs.addLast(ri);
-            ls.addLast(li);rs.addLast(r);
+            lrs.addLast(new IntInt(l,ri));
+            lrs.addLast(new IntInt(li,r));
         }
     }
 
@@ -43,13 +44,12 @@ public class FGSort{
 
     //be slower than primitives, but more universal
     public static <T extends Comparable<? super T>> void sort(List<T> list){
-        LinkedList<Integer> ls=new LinkedList<>();
-        ls.add(0);
-        LinkedList<Integer> rs=new LinkedList<>();
-        rs.add(list.size()-1);
-        while(ls.size()>0){
-            int l=ls.removeLast();
-            int r=rs.removeLast();
+        LinkedList<IntInt> lrs=new LinkedList<>();
+        lrs.add(new IntInt(0,list.size()-1));
+        while(lrs.size()>0){
+            IntInt lr=lrs.removeLast();
+            int l=lr.x();
+            int r=lr.y();
             if(r-l<=0)continue;
             if(r-l==1){
                 if(list.get(l).compareTo(list.get(r))>0)swap(list,l,r);
@@ -68,8 +68,8 @@ public class FGSort{
                     ri--;
                 }
             }
-            ls.addLast(l);rs.addLast(ri);
-            ls.addLast(li);rs.addLast(r);
+            lrs.addLast(new IntInt(l,ri));
+            lrs.addLast(new IntInt(li,r));
         }
     }
     private static <T> void swap(List<T> list,int l,int r){

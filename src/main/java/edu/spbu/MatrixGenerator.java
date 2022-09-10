@@ -20,12 +20,12 @@ public class MatrixGenerator{
     private final int size;
     private final String emptyRow;
     private final Random rnd;
-    private final String file;
+    private final String filename;
 
-    public MatrixGenerator(int seed,int emptyRowFraction,String file,int size){
+    public MatrixGenerator(int seed,int emptyRowFraction,String filename,int size){
         this.emptyRowFraction=emptyRowFraction;
         this.size=size;
-        this.file=file;
+        this.filename=filename;
         rnd=new Random(seed);
         emptyRow=String.join(" ",Collections.nCopies(size,"0"));
     }
@@ -65,7 +65,7 @@ public class MatrixGenerator{
     }
 
     public void generate() throws IOException{
-        PrintWriter out=new PrintWriter(new FileWriter(file));
+        PrintWriter out=new PrintWriter(new FileWriter(filename));
         for(int i=0;i<size;i++){
             // only 1/emptyRowFraction will have non 0 values
             if(rnd.nextInt(emptyRowFraction)==0) out.println(generateRow());
