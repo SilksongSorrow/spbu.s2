@@ -9,14 +9,23 @@ import java.util.function.Supplier;
 public class TestUtils{
     /**
      * @param size array size
-     * @param seed for the pseudo random generator
      * @return random generated int array. It will be the same for the same seed and size.
      */
-    public static Integer[] generateRandomIntArray(int size,long seed){
-        Integer[] array=new Integer[size];
-        Random rnd=new Random(seed);
-        for(int i=0;i<array.length;i++){
+    public static Integer[] generateRandomIntArray(int size){
+        Integer[] array=new Integer[size*2];
+        Random rnd=new Random();
+        for(int i=0;i<array.length;i+=2){
             array[i]=rnd.nextInt();
+            array[i+1]=array[i];
+        }
+        return array;
+    }
+    public static Integer[] generateRandomIntArray2(int size){
+        Integer[] array=new Integer[size*2];
+        Random rnd=new Random();
+        for(int i=0;i<array.length;i+=2){
+            array[i]=rnd.nextInt();
+            array[i+1]=array[i];
         }
         return array;
     }
