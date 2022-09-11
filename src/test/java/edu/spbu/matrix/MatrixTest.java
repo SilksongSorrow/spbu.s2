@@ -1,11 +1,13 @@
 package edu.spbu.matrix;
 
+import edu.spbu.MatrixGenerator;
 import edu.spbu.TestUtils;
 import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.function.Supplier;
 
+import static edu.spbu.MatrixGenerator.*;
 import static edu.spbu.TestUtils.testN;
 import static org.junit.Assert.assertEquals;
 
@@ -47,12 +49,13 @@ public class MatrixTest{
         test=new LinkedList<>();
         for(id_i=0;id_i<4;id_i++){
             test.add(()->{
-                Matrix m1=id_i/2==0 ? new DenseMatrix("m1.txt"):new SparseMatrix("m1.txt");
-                Matrix m2=id_i%2==0 ? new DenseMatrix("m2.txt"):new SparseMatrix("m2.txt");
-                Matrix expected=new DenseMatrix("result.txt");
+                Matrix m1=id_i/2==0 ? new DenseMatrix(MATRIX1_NAME):new SparseMatrix(MATRIX1_NAME);
+                Matrix m2=id_i%2==0 ? new DenseMatrix(MATRIX2_NAME):new SparseMatrix(MATRIX2_NAME);
+                Matrix expected=new DenseMatrix(RESULT_NAME);
 
                 long startTime=System.nanoTime();
                 assertEquals(expected,m1.mul(m2));
+                //if(!expected.equals(m1.mul(m2))) throw new IllegalArgumentException("!!!");
 
                 return System.nanoTime()-startTime;
             });

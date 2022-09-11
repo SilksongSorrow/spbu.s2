@@ -21,14 +21,14 @@ public class MatrixGeneratorTest{
 
     private static final Supplier<Long> testPerformanceD, testPerformanceS, testPerformanceDeqS;
 
-    private static final int size=500;
-    private static final int max_N=10_000;
-    private static final int fr=10;
+    private static final int size=2;
+    private static final int max_N=2;
+    private static final int fr=1;
     private static final int TESTS_N=10;
 
     private static void gen(){
-        gen(MATRIX1_NAME);
-        gen(MATRIX2_NAME);
+        /*gen(MATRIX1_NAME);
+        gen(MATRIX2_NAME);*/
     }
 
     private static void gen(String filename){

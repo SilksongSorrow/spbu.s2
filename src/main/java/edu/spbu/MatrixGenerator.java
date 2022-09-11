@@ -1,5 +1,7 @@
 package edu.spbu;
 
+import edu.spbu.matrix.DenseMatrix;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +16,7 @@ public class MatrixGenerator{
 
     public static final String MATRIX1_NAME="m1.txt";
     public static final String MATRIX2_NAME="m2.txt";
+    public static final String RESULT_NAME="result.txt";
     public static final int SIZE=200;
 
     private final int emptyRowFraction;
@@ -45,6 +48,9 @@ public class MatrixGenerator{
         try{
             new MatrixGenerator(SEED1,EMPTY_ROW_FRACTION,MATRIX1_NAME,SIZE).generate();
             new MatrixGenerator(SEED2,EMPTY_ROW_FRACTION,MATRIX2_NAME,SIZE).generate();
+            PrintWriter wr=new PrintWriter(RESULT_NAME);
+            wr.println(new DenseMatrix(MATRIX1_NAME).mul(new DenseMatrix(MATRIX2_NAME)).toString());
+            wr.close();
         }catch(IOException e){
             System.out.println("Fail to generate matrix file: "+e);
         }

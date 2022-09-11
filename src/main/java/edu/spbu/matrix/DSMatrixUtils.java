@@ -22,7 +22,7 @@ public final class DSMatrixUtils{
         for(int i=0;i<N;i++){
             for(int j=0;j<K;j++){
                 for(int k=0;k<M;k++){
-                    mx[i][j]+=m1.get(i,k)*m2.get(k,j);
+                    mx[i][j]+=m1.get(k,i)*m2.get(j,k);
                 }
             }
         }

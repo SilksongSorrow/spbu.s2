@@ -14,11 +14,10 @@ public final class TestUtils{
      * @return random generated int array. It will be the same for the same seed and size.
      */
     public static Integer[] generateRandomIntArray(int size){
-        Integer[] array=new Integer[size*2];
+        Integer[] array=new Integer[size];
         Random rnd=new Random();
-        for(int i=0;i<array.length;i+=2){
+        for(int i=0;i<array.length;i++){
             array[i]=rnd.nextInt();
-            array[i+1]=array[i];
         }
         return array;
     }
