@@ -11,7 +11,6 @@ public final class DSMatrixUtils{
     private DSMatrixUtils(){ /* no instance */ }
 
     public static Matrix mulDense(DenseMatrix m1,DenseMatrix m2){
-        //System.out.println("dn");
         int N=m1.height();
         int M=m1.width();
         int M2=m2.height();
@@ -27,7 +26,7 @@ public final class DSMatrixUtils{
                 }
             }
         }
-        return new DenseMatrix(mx,N,K);
+        return new DenseMatrix(mx,K,N);
     }
 
     public static Matrix mulDenseSparse(DenseMatrix m1,SparseMatrix m2){
@@ -72,7 +71,7 @@ public final class DSMatrixUtils{
                 if(v!=0) res.add(new SparseMatrixValue(j,i,v));
             }
         }
-        return new SparseMatrix(res,N,K);
+        return new SparseMatrix(res,K,N);
     }
 
     public static Matrix dMulDense(DenseMatrix m1,DenseMatrix m2){
@@ -83,22 +82,13 @@ public final class DSMatrixUtils{
 
         if(M!=M2) throw new IllegalArgumentException("can't: "+N+" "+M+" "+M2+" "+K);
 
-        int[][] mx=new int[N][K];
-        LinkedList<MatrixThread> threads=new LinkedList<>();
+        int[][] mx=new int[K][N];
+        MatrixThread[][] threads=new MatrixThread[K][N];
         for(int i=0;i<N;i++){
             for(int j=0;j<K;j++){
-                threads.add(new MatrixThread(m1,m2,i,j,M));
-                threads.getLast().start();
-            }
-        }
-        LinkedList<MatrixThread> sav=new LinkedList<>(threads);
-        while(threads.size()>0){
-            MatrixThread t=threads.removeFirst();
-            if(t.isAlive())threads.addLast(t);
-        }
-        for(int i=0;i<N;i++){
-            for(int j=0;j<K;j++){
-                mx[i][j]=sav.get(i*N+j).get();
+                for(int k=0;k<M;k++){
+                    mx[j][i]+=m1.get(k,i)*m2.get(j,k);
+                }
             }
         }
         return new DenseMatrix(mx,N,K);

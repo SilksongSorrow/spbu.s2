@@ -7,31 +7,22 @@ import org.junit.After;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.Random;
 import java.util.function.Supplier;
 
-import static edu.spbu.MatrixGenerator.*;
 import static edu.spbu.TestUtils.testN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import static edu.spbu.matrix.MatrixConst.*;
 
 public class MatrixGeneratorTest{
     public static final String filename="test.txt";
 
     private static final Supplier<Long> testPerformanceD, testPerformanceS, testPerformanceDeqS;
-    private static final int TESTS_N=100;
 
     private static void gen(){
-        gen(MATRIX1_NAME);
-        gen(MATRIX2_NAME);
-    }
-
-    private static void gen(String filename){
-        try{
-            new MatrixGenerator(new Random().nextInt(),EMPTY_ROW_FRACTION,filename,SIZE,MAX_N).generate();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        MatrixGenerator.gen(MATRIX1_NAME);
+        MatrixGenerator.gen(MATRIX2_NAME);
     }
 
     static{
@@ -86,17 +77,17 @@ public class MatrixGeneratorTest{
 
     @Test
     public void testPerformanceD(){
-        TestUtils.printTest("testPerformanceD",testN(testPerformanceD,TESTS_N));
+        TestUtils.printTestN("testPerformanceD",testN(testPerformanceD,TESTS_N));
     }
 
     @Test
     public void testPerformanceS(){
-        TestUtils.printTest("testPerformanceS",testN(testPerformanceS,TESTS_N));
+        TestUtils.printTestN("testPerformanceS",testN(testPerformanceS,TESTS_N));
     }
 
     @Test
     public void testPerformanceDeqS(){
-        TestUtils.printTest("testPerformanceDeqS",testN(testPerformanceDeqS,TESTS_N));
+        TestUtils.printTestN("testPerformanceDeqS",testN(testPerformanceDeqS,TESTS_N));
     }
 
 

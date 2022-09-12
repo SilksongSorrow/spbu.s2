@@ -2,10 +2,9 @@ package edu.spbu;
 
 import edu.spbu.matrix.*;
 
-public class MatrixPerfTest{
-    public static final String MATRIX1_NAME="m1.txt";
-    public static final String MATRIX2_NAME="m2.txt";
+import static edu.spbu.matrix.MatrixConst.*;
 
+public class MatrixPerfTest{
     public static void main(String[] s){
 
         System.out.println("Starting loading dense matrices");

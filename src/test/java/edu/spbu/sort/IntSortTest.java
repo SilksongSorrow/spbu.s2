@@ -18,22 +18,22 @@ public class IntSortTest{
 
     @Test
     public void testSortArray(){
-        TestUtils.printTest("testSortArray",testN(testArray,100));
+        TestUtils.printTestN("testSortArray",testN(testArray,100));
     }
 
     @Test
     public void testSortList(){
-        TestUtils.printTest("testSortList",testN(testList,100));
+        TestUtils.printTestN("testSortList",testN(testList,100));
     }
 
     @Test
     public void testSortStArray(){
-        TestUtils.printTest("testSortStArray",testN(testStArray,100));
+        TestUtils.printTestN("testSortStArray",testN(testStArray,100));
     }
 
     @Test
     public void testSortStList(){
-        TestUtils.printTest("testSortStList",testN(testStList,100));
+        TestUtils.printTestN("testSortStList",testN(testStList,100));
     }
 
     static{

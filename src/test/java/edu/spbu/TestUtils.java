@@ -3,6 +3,8 @@
 
 package edu.spbu;
 
+import edu.spbu.matrix.LongLong;
+
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -32,14 +34,25 @@ public final class TestUtils{
         return array;
     }
 
-    public static long testN(Supplier<Long> nano,int size){
-        long estimatedTime=0;
+    public static LongLong testN(Supplier<Long> nano,int size){
+        long sum=0;
+        long[] ts=new long[size];
         for(int i=0;i<size;i++){
-            estimatedTime+=nano.get();
+            ts[i]=nano.get();
+            sum+=ts[i];
         }
-        return estimatedTime/size;
+        long t=sum/size;
+
+        long d=0;
+        for(int i=0;i<size;i++){
+            d+=Math.abs(ts[i]-t);
+        }
+        return new LongLong(t,d/size);
     }
 
+    public static void printTestN(String name,LongLong t){
+        System.out.println("Execution time - "+name+"(): "+t.x()/1000*0.001+"+-"+t.y()/1000*0.001+" ms");
+    }
     public static void printTest(String name,long t){
         System.out.println("Execution time - "+name+"(): "+t/1000*0.001+" ms");
     }

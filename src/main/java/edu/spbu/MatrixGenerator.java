@@ -1,6 +1,7 @@
 package edu.spbu;
 
 import edu.spbu.matrix.DenseMatrix;
+import edu.spbu.matrix.Matrix;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,18 +10,9 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static edu.spbu.matrix.MatrixConst.*;
+
 public class MatrixGenerator{
-    public static final int SEED1=1;
-    public static final int SEED2=2;
-    public static final int EMPTY_ROW_FRACTION=10;
-    public static final int SIZE=200;
-    public static final int MAX_N=10000;
-
-    public static final String MATRIX1_NAME="m1.txt";
-    public static final String MATRIX2_NAME="m2.txt";
-    public static final String RESULT_NAME="result.txt";
-
-
     private final int emptyRowFraction;
     private final int size;
     private final String emptyRow;
@@ -28,6 +20,9 @@ public class MatrixGenerator{
     private final String filename;
 
     private int maxN=5;
+    public MatrixGenerator(int seed,String filename){
+        this(seed,EMPTY_ROW_FRACTION,filename,SIZE,MAX_N);
+    }
 
     public MatrixGenerator(int seed,int emptyRowFraction,String filename,int size,int maxN){
         this.emptyRowFraction=emptyRowFraction;
@@ -47,15 +42,9 @@ public class MatrixGenerator{
     }
 
     public static void main(String[] args){
-        try{
-            new MatrixGenerator(SEED1,EMPTY_ROW_FRACTION,MATRIX1_NAME,SIZE,MAX_N).generate();
-            new MatrixGenerator(SEED2,EMPTY_ROW_FRACTION,MATRIX2_NAME,SIZE,MAX_N).generate();
-            PrintWriter wr=new PrintWriter(RESULT_NAME);
-            wr.println(new DenseMatrix(MATRIX1_NAME).mul(new DenseMatrix(MATRIX2_NAME)).toString());
-            wr.close();
-        }catch(IOException e){
-            System.out.println("Fail to generate matrix file: "+e);
-        }
+        gen(MATRIX1_NAME);
+        gen(MATRIX2_NAME);
+        print(new DenseMatrix(MATRIX1_NAME).mul(new DenseMatrix(MATRIX2_NAME)));
     }
 
     public void generate() throws IOException{
@@ -70,5 +59,23 @@ public class MatrixGenerator{
 
     private String generateRow(){
         return rnd.ints(0,emptyRowFraction).limit(size).mapToObj(r->(r==0) ? ""+rnd.nextInt(maxN):"0").collect(Collectors.joining(" "));
+    }
+
+
+    public static void gen(String filename){
+        try{
+            new MatrixGenerator(new Random().nextInt(),filename).generate();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static void print(Matrix matrix){
+        try{
+            PrintWriter wr=new PrintWriter(RESULT_NAME);
+            wr.println(matrix.toString());
+            wr.close();
+        }catch(IOException e){
+            System.out.println("Fail to generate matrix file: "+e);
+        }
     }
 }
