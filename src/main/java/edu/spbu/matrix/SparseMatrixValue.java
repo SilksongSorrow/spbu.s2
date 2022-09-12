@@ -19,4 +19,9 @@ public class SparseMatrixValue{
     public int y(){ return y; }
 
     public int value(){ return value; }
+
+    @Override
+    public String toString(){
+        return "smv["+String.join(" ",x+"",y+"",value+"")+"]";
+    }
 }

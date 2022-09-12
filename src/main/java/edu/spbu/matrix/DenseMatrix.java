@@ -122,13 +122,15 @@ public class DenseMatrix implements Matrix{
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                sb.append(input[i][j]);
+        for(int i=0;i<height;i++){
+            for(int j=0;j<width;j++){
+                sb.append(input[j][i]);
                 sb.append(" ");
             }
+            sb.delete(sb.length()-1,sb.length());
             sb.append("\n");
         }
+        sb.delete(sb.length()-1,sb.length());
         return sb.toString();
     }
 }

@@ -11,6 +11,7 @@ public final class DSMatrixUtils{
     private DSMatrixUtils(){ /* no instance */ }
 
     public static Matrix mulDense(DenseMatrix m1,DenseMatrix m2){
+        //System.out.println("dn");
         int N=m1.height();
         int M=m1.width();
         int M2=m2.height();
@@ -18,11 +19,11 @@ public final class DSMatrixUtils{
 
         if(M!=M2) throw new IllegalArgumentException("can't: "+N+" "+M+" "+M2+" "+K);
 
-        int[][] mx=new int[N][K];
+        int[][] mx=new int[K][N];
         for(int i=0;i<N;i++){
             for(int j=0;j<K;j++){
                 for(int k=0;k<M;k++){
-                    mx[i][j]+=m1.get(k,i)*m2.get(j,k);
+                    mx[j][i]+=m1.get(k,i)*m2.get(j,k);
                 }
             }
         }
@@ -32,8 +33,12 @@ public final class DSMatrixUtils{
     public static Matrix mulDenseSparse(DenseMatrix m1,SparseMatrix m2){
         return mulSparse(toSparse(m1),m2);
     }
+    public static Matrix mulSparseDense(SparseMatrix m1,DenseMatrix m2){
+        return mulSparse(m1,toSparse(m2));
+    }
 
     public static Matrix mulSparse(SparseMatrix m1,SparseMatrix m2){
+        //System.out.println("sp");
         int N=m1.height();
         int M=m1.width();
         int M2=m2.height();
@@ -41,36 +46,11 @@ public final class DSMatrixUtils{
 
         if(M!=M2) throw new IllegalArgumentException("can't: "+N+" "+M+" "+M2+" "+K);
 
-        List<SparseMatrixValue> values1=m1.values();
-        List<SparseMatrixValue> values2=m2.values();
-        LinkedList<List<SparseMatrixValue>> strokes1=new LinkedList<>();
-        LinkedList<List<SparseMatrixValue>> rows2=new LinkedList<>();
-        boolean[] clear1=new boolean[N];
-        boolean[] clear2=new boolean[K];
-
-        for(int i=0;i<N;i++) strokes1.add(new LinkedList<>());
-        for(int i=0;i<K;i++) rows2.add(new LinkedList<>());
-
-        for(SparseMatrixValue v: values1){
-            strokes1.get(v.y()).add(v);
-            clear1[v.y()]=true;
-        }
-        for(SparseMatrixValue v: values2){
-            rows2.get(v.x()).add(v);
-            clear2[v.x()]=true;
-        }
-        for(int i=0;i<N;i++) strokes1.get(i).sort(Comparator.comparingInt(SparseMatrixValue::x));
-        for(int i=0;i<K;i++) rows2.get(i).sort(Comparator.comparingInt(SparseMatrixValue::y));
-
-        List<SparseMatrixValue> res=new LinkedList<>();
-        for(int i=0;i<N;i++){
-            if(clear1[i]) continue;
-            for(int j=0;j<K;j++){
-                if(clear2[i]) continue;
-
-                List<SparseMatrixValue> stroke=strokes1.get(i);
-                List<SparseMatrixValue> row=rows2.get(j);
-
+        LinkedList<SparseMatrixValue> res=new LinkedList<>();
+        for(int i: m1.strokesKeys()){
+            for(int j: m2.rowsKeys()){
+                List<SparseMatrixValue> stroke=m1.stroke(i);
+                List<SparseMatrixValue> row=m2.row(j);
                 int l1=0;
                 int l2=0;
                 int v=0;
@@ -89,14 +69,39 @@ public final class DSMatrixUtils{
                     l1++;
                     l2++;
                 }
-                if(v!=0) res.add(new SparseMatrixValue(i,j,v));
+                if(v!=0) res.add(new SparseMatrixValue(j,i,v));
             }
         }
         return new SparseMatrix(res,N,K);
     }
 
     public static Matrix dMulDense(DenseMatrix m1,DenseMatrix m2){
-        return null;
+        int N=m1.height();
+        int M=m1.width();
+        int M2=m2.height();
+        int K=m2.width();
+
+        if(M!=M2) throw new IllegalArgumentException("can't: "+N+" "+M+" "+M2+" "+K);
+
+        int[][] mx=new int[N][K];
+        LinkedList<MatrixThread> threads=new LinkedList<>();
+        for(int i=0;i<N;i++){
+            for(int j=0;j<K;j++){
+                threads.add(new MatrixThread(m1,m2,i,j,M));
+                threads.getLast().start();
+            }
+        }
+        LinkedList<MatrixThread> sav=new LinkedList<>(threads);
+        while(threads.size()>0){
+            MatrixThread t=threads.removeFirst();
+            if(t.isAlive())threads.addLast(t);
+        }
+        for(int i=0;i<N;i++){
+            for(int j=0;j<K;j++){
+                mx[i][j]=sav.get(i*N+j).get();
+            }
+        }
+        return new DenseMatrix(mx,N,K);
     }
 
     public static Matrix dMulDenseSparse(DenseMatrix m1,SparseMatrix m2){
@@ -119,8 +124,10 @@ public final class DSMatrixUtils{
 
     public static DenseMatrix toDense(SparseMatrix m){
         int[][] mx=new int[m.width()][m.height()];
-        for(SparseMatrixValue v: m.values()){
-            mx[v.x()][v.y()]=v.value();
+        for(List<SparseMatrixValue> vs: m.strokes()){
+            for(SparseMatrixValue v: vs){
+                mx[v.x()][v.y()]=v.value();
+            }
         }
         return new DenseMatrix(mx,m.width(),m.height());
     }

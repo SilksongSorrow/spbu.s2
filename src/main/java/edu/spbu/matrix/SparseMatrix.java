@@ -1,9 +1,7 @@
 package edu.spbu.matrix;
 
 import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static edu.spbu.matrix.DSMatrixUtils.*;
@@ -13,7 +11,26 @@ import static edu.spbu.matrix.DSMatrixUtils.*;
  */
 public class SparseMatrix implements Matrix{
     private final List<SparseMatrixValue> values;
+    private Map<Integer,List<SparseMatrixValue>> strokes;
+    private Map<Integer,List<SparseMatrixValue>> rows;
     private final int width, height;
+
+    public List<SparseMatrixValue> row(int key){ return rows.get(key); }
+    public List<SparseMatrixValue> stroke(int key){ return strokes.get(key); }
+
+    public Set<Integer> rowsKeys(){ return rows.keySet(); }
+    public Set<Integer> strokesKeys(){ return strokes.keySet(); }
+
+    public Set<List<SparseMatrixValue>> rows(){
+        HashSet<List<SparseMatrixValue>> set=new HashSet<>();
+        for(int key: rowsKeys())set.add(rows.get(key));
+        return set;
+    }
+    public Set<List<SparseMatrixValue>> strokes(){
+        HashSet<List<SparseMatrixValue>> set=new HashSet<>();
+        for(int key: strokesKeys())set.add(strokes.get(key));
+        return set;
+    }
 
     /**
      * загружает матрицу из файла
@@ -40,24 +57,49 @@ public class SparseMatrix implements Matrix{
             int ii=0;
             while(st.hasMoreTokens()){
                 String t=st.nextToken();
-                if(t.equals("0")) continue;
+                if(t.equals("0")){
+                    ii++;
+                    continue;
+                }
                 values.add(new SparseMatrixValue(ii,jj,Integer.parseInt(t)));
                 ii++;
             }
             jj++;
         }
+        init();
     }
 
     public SparseMatrix(List<SparseMatrixValue> values,int width,int height){
         this.values=values;
         this.width=width;
         this.height=height;
+        init();
+        //System.out.println(strokes);
         //todo checking matrix out of range
+    }
+
+    private void init(){
+        strokes=new HashMap<>();
+        rows=new HashMap<>();
+        for(SparseMatrixValue v: values){
+            if(!strokes.containsKey(v.y()))strokes.put(v.y(),new LinkedList<>());
+            strokes.get(v.y()).add(v);
+
+            if(!rows.containsKey(v.x()))rows.put(v.x(),new LinkedList<>());
+            rows.get(v.x()).add(v);
+        }
+        for(List<SparseMatrixValue> l: strokes.values()){
+            l.sort(Comparator.comparingInt(SparseMatrixValue::y));
+        }
+        for(List<SparseMatrixValue> l: rows.values()){
+            l.sort(Comparator.comparingInt(SparseMatrixValue::x));
+        }
     }
 
     @Override
     public int get(int x,int y){
-        return values.stream().filter(v->v.x()==x && v.y()==y).findFirst().orElse(SparseMatrixValue.ZERO).value();
+        if(!strokes.containsKey(y))return 0;
+        return strokes.get(y).stream().filter(o->o.x()==x).findFirst().orElse(SparseMatrixValue.ZERO).value();
     }
 
     @Override
@@ -74,8 +116,8 @@ public class SparseMatrix implements Matrix{
      */
     @Override
     public Matrix mul(Matrix m){
-        if(m instanceof SparseMatrix) return mulSparse((SparseMatrix)m,this);
-        if(m instanceof DenseMatrix) return mulDenseSparse((DenseMatrix)m,this);
+        if(m instanceof SparseMatrix) return mulSparse(this,(SparseMatrix)m);
+        if(m instanceof DenseMatrix) return mulSparseDense(this,(DenseMatrix)m);
         throw new IllegalArgumentException("wrong type: "+m);
     }
 
@@ -121,20 +163,18 @@ public class SparseMatrix implements Matrix{
         return toDense(this).equals(other);
     }
 
-    public List<SparseMatrixValue> values(){
-        return new LinkedList<>(values);
-    }
-
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                sb.append(get(i,j));
+        for(int i=0;i<height;i++){
+            for(int j=0;j<width;j++){
+                sb.append(get(j,i));
                 sb.append(" ");
             }
+            sb.delete(sb.length()-1,sb.length());
             sb.append("\n");
         }
+        sb.delete(sb.length()-1,sb.length());
         return sb.toString();
     }
 }

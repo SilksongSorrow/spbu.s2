@@ -10,8 +10,7 @@ import java.io.*;
 import java.util.Random;
 import java.util.function.Supplier;
 
-import static edu.spbu.MatrixGenerator.MATRIX1_NAME;
-import static edu.spbu.MatrixGenerator.MATRIX2_NAME;
+import static edu.spbu.MatrixGenerator.*;
 import static edu.spbu.TestUtils.testN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,20 +19,16 @@ public class MatrixGeneratorTest{
     public static final String filename="test.txt";
 
     private static final Supplier<Long> testPerformanceD, testPerformanceS, testPerformanceDeqS;
-
-    private static final int size=2;
-    private static final int max_N=2;
-    private static final int fr=1;
-    private static final int TESTS_N=10;
+    private static final int TESTS_N=100;
 
     private static void gen(){
-        /*gen(MATRIX1_NAME);
-        gen(MATRIX2_NAME);*/
+        gen(MATRIX1_NAME);
+        gen(MATRIX2_NAME);
     }
 
     private static void gen(String filename){
         try{
-            new MatrixGenerator(new Random().nextInt(),fr,filename,size,max_N).generate();
+            new MatrixGenerator(new Random().nextInt(),EMPTY_ROW_FRACTION,filename,SIZE,MAX_N).generate();
         }catch(IOException e){
             e.printStackTrace();
         }

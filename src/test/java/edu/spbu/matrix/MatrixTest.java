@@ -1,64 +1,66 @@
 package edu.spbu.matrix;
 
-import edu.spbu.MatrixGenerator;
 import edu.spbu.TestUtils;
 import org.junit.Test;
 
 import java.util.LinkedList;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static edu.spbu.MatrixGenerator.*;
 import static edu.spbu.TestUtils.testN;
-import static org.junit.Assert.assertEquals;
 
 public class MatrixTest{
-
-    private static final int D=0;
-    private static final int S=0;
+    private static final int TESTS_N=100;
 
     /**
      * ожидается 4 таких теста
      */
     @Test
-    public void mulDD(){
-        TestUtils.printTest("mulDD",testN(test.get(getID(D,D)),1));
+    public void mul(){
+        TestUtils.printTest("mulDD",testN(test.apply(0),TESTS_N));
+        TestUtils.printTest("mulDS",testN(test.apply(1),TESTS_N));
+        TestUtils.printTest("mulSD",testN(test.apply(2),TESTS_N));
+        TestUtils.printTest("mulSS",testN(test.apply(3),TESTS_N));
     }
 
     @Test
-    public void mulDS(){
-        TestUtils.printTest("mulDS",testN(test.get(getID(D,S)),1));
+    public void mulD(){
+        TestUtils.printTest("d-mulDD",testN(testT.apply(0),TESTS_N));
+        TestUtils.printTest("d-mulDS",testN(testT.apply(1),TESTS_N));
+        TestUtils.printTest("d-mulSD",testN(testT.apply(2),TESTS_N));
+        TestUtils.printTest("d-mulSS",testN(testT.apply(3),TESTS_N));
     }
 
-    @Test
-    public void mulSD(){
-        TestUtils.printTest("mulSD",testN(test.get(getID(S,D)),1));
-    }
-
-    @Test
-    public void mulSS(){
-        TestUtils.printTest("mulSS",testN(test.get(getID(S,S)),1));
-    }
-
-    private int getID(int a,int b){ return a*2+b; }
-
-    private static final LinkedList<Supplier<Long>> test;
-
-    private static int id_i;
+    private static final Function<Integer,Supplier<Long>> test;
+    private static final Function<Integer,Supplier<Long>> testT;
 
     static{
-        test=new LinkedList<>();
-        for(id_i=0;id_i<4;id_i++){
-            test.add(()->{
-                Matrix m1=id_i/2==0 ? new DenseMatrix(MATRIX1_NAME):new SparseMatrix(MATRIX1_NAME);
-                Matrix m2=id_i%2==0 ? new DenseMatrix(MATRIX2_NAME):new SparseMatrix(MATRIX2_NAME);
-                Matrix expected=new DenseMatrix(RESULT_NAME);
+        test=(id_i)->()->{
+            Matrix m1=id_i/2==0 ? new DenseMatrix(MATRIX1_NAME):new SparseMatrix(MATRIX1_NAME);
+            Matrix m2=id_i%2==0 ? new DenseMatrix(MATRIX2_NAME):new SparseMatrix(MATRIX2_NAME);
+            Matrix expected=new DenseMatrix(RESULT_NAME);
 
-                long startTime=System.nanoTime();
-                assertEquals(expected,m1.mul(m2));
-                //if(!expected.equals(m1.mul(m2))) throw new IllegalArgumentException("!!!");
+            long startTime=System.nanoTime();
+            Matrix m=m1.mul(m2);
+            long tt=System.nanoTime()-startTime;
+            if(!expected.toString().equals(m.toString())){
+                throw new IllegalArgumentException("\n\n"+m1+"\n\n"+m2+"\n\n"+expected+"\n\n"+m);
+            }
+            return tt;
+        };
 
-                return System.nanoTime()-startTime;
-            });
-        }
+        testT=(id_i)->()->{
+            Matrix m1=id_i/2==0 ? new DenseMatrix(MATRIX1_NAME):new SparseMatrix(MATRIX1_NAME);
+            Matrix m2=id_i%2==0 ? new DenseMatrix(MATRIX2_NAME):new SparseMatrix(MATRIX2_NAME);
+            Matrix expected=new DenseMatrix(RESULT_NAME);
+
+            long startTime=System.nanoTime();
+            Matrix m=m1.mul(m2);
+            if(!expected.equals(m)){
+                //throw new IllegalArgumentException("\n\n"+m1+"\n\n"+m2+"\n\n"+expected+"\n\n"+m);
+            }
+            return System.nanoTime()-startTime;
+        };
     }
 }
