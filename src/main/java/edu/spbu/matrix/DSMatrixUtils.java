@@ -3,7 +3,6 @@
 
 package edu.spbu.matrix;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,12 +31,12 @@ public final class DSMatrixUtils{
     public static Matrix mulDenseSparse(DenseMatrix m1,SparseMatrix m2){
         return mulSparse(toSparse(m1),m2);
     }
+
     public static Matrix mulSparseDense(SparseMatrix m1,DenseMatrix m2){
         return mulSparse(m1,toSparse(m2));
     }
 
     public static Matrix mulSparse(SparseMatrix m1,SparseMatrix m2){
-        //System.out.println("sp");
         int N=m1.height();
         int M=m1.width();
         int M2=m2.height();
@@ -74,6 +73,9 @@ public final class DSMatrixUtils{
         return new SparseMatrix(res,K,N);
     }
 
+    private static final Object lock_d=new Object();
+    private static final Object lock_s=new Object();
+
     public static Matrix dMulDense(DenseMatrix m1,DenseMatrix m2){
         int N=m1.height();
         int M=m1.width();
@@ -83,23 +85,78 @@ public final class DSMatrixUtils{
         if(M!=M2) throw new IllegalArgumentException("can't: "+N+" "+M+" "+M2+" "+K);
 
         int[][] mx=new int[K][N];
-        MatrixThread[][] threads=new MatrixThread[K][N];
-        for(int i=0;i<N;i++){
-            for(int j=0;j<K;j++){
-                for(int k=0;k<M;k++){
-                    mx[j][i]+=m1.get(k,i)*m2.get(j,k);
+        DenseMatrixThread[] threads=new DenseMatrixThread[K];
+        Thread main=new Thread(()->{
+            synchronized(lock_d){
+                for(int i=0;i<N;i++){
+                    mx[i]=threads[i].get();
                 }
             }
+        });
+        synchronized(lock_d){
+            for(int i=0;i<N;i++){
+                threads[i]=new DenseMatrixThread(m1,m2,i,M,N);
+                threads[i].start();
+                try{
+                    threads[i].join();
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        main.start();
+
+        try{
+            main.join();
+        }catch(InterruptedException e){
+            e.printStackTrace();
         }
         return new DenseMatrix(mx,N,K);
     }
 
     public static Matrix dMulDenseSparse(DenseMatrix m1,SparseMatrix m2){
-        return null;
+        return dMulSparse(toSparse(m1),m2);
+    }
+    public static Matrix dMulSparseDense(SparseMatrix m1,DenseMatrix m2){
+        return dMulSparse(m1,toSparse(m2));
     }
 
     public static Matrix dMulSparse(SparseMatrix m1,SparseMatrix m2){
-        return null;
+        int N=m1.height();
+        int M=m1.width();
+        int M2=m2.height();
+        int K=m2.width();
+
+        if(M!=M2) throw new IllegalArgumentException("can't: "+N+" "+M+" "+M2+" "+K);
+
+        LinkedList<SparseMatrixValue> res=new LinkedList<>();
+        SparseMatrixThread[] threads=new SparseMatrixThread[K];
+        Thread main=new Thread(()->{
+            synchronized(lock_d){
+                for(int i: m1.strokesKeys()){
+                    res.addAll(threads[i].get());
+                }
+            }
+        });
+        synchronized(lock_d){
+            for(int i: m1.strokesKeys()){
+                threads[i]=new SparseMatrixThread(m1,m2,i);
+                threads[i].start();
+                try{
+                    threads[i].join();
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        main.start();
+
+        try{
+            main.join();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        return new SparseMatrix(res,N,K);
     }
 
     public static SparseMatrix toSparse(DenseMatrix m){

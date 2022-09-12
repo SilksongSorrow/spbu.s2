@@ -58,11 +58,12 @@ public class MatrixTest{
             Matrix expected=new DenseMatrix(RESULT_NAME);
 
             long startTime=System.nanoTime();
-            Matrix m=m1.mul(m2);
-            if(!expected.equals(m)){
-                //throw new IllegalArgumentException("\n\n"+m1+"\n\n"+m2+"\n\n"+expected+"\n\n"+m);
+            Matrix m=m1.dMul(m2);
+            long tt=System.nanoTime()-startTime;
+            if(!expected.toString().equals(m.toString())){
+                throw new IllegalArgumentException("\n\n"+m1+"\n\n"+m2+"\n\n"+expected+"\n\n"+m);
             }
-            return System.nanoTime()-startTime;
+            return tt;
         };
     }
 

@@ -129,8 +129,8 @@ public class SparseMatrix implements Matrix{
      */
     @Override
     public Matrix dMul(Matrix m){
-        if(m instanceof SparseMatrix) return dMulSparse((SparseMatrix)m,this);
-        if(m instanceof DenseMatrix) return dMulDenseSparse((DenseMatrix)m,this);
+        if(m instanceof SparseMatrix) return dMulSparse(this,(SparseMatrix)m);
+        if(m instanceof DenseMatrix) return dMulSparseDense(this,(DenseMatrix)m);
         throw new IllegalArgumentException("wrong type: "+m);
     }
 
