@@ -3,7 +3,7 @@
 
 package edu.spbu;
 
-import edu.spbu.matrix.LongLong;
+import edu.spbu.utils.LongLong;
 
 import java.util.Random;
 import java.util.function.Supplier;

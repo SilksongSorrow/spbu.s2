@@ -1,6 +1,6 @@
 package edu.spbu.sort;
 
-import edu.spbu.matrix.IntInt;
+import edu.spbu.utils.IntInt;
 
 import java.util.*;
 

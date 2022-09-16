@@ -1,7 +1,7 @@
 //Uzery Game Studio 2019-2022
 //documentation = false
 
-package edu.spbu.matrix;
+package edu.spbu.utils;
 
 public class LongLong{
     private final long x, y;
