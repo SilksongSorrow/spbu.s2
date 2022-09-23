@@ -1,4 +1,4 @@
-package edu.spbu.matrix;
+package edu.spbuX.matrix;
 
 /**
  *
@@ -27,6 +27,6 @@ public interface Matrix{
     Matrix dMul(Matrix m);
 
     default boolean equalsWH(Matrix m){
-        return m.width()!=width() || m.height()!=height();
+        return m.width()==width() || m.height()==height();
     }
 }

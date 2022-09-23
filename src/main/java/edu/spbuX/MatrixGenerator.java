@@ -1,7 +1,7 @@
-package edu.spbu;
+package edu.spbuX;
 
-import edu.spbu.matrix.DenseMatrix;
-import edu.spbu.matrix.Matrix;
+import edu.spbuX.matrix.DenseMatrix;
+import edu.spbuX.matrix.Matrix;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static edu.spbu.matrix.MatrixConst.*;
+import static edu.spbuX.matrix.MatrixConst.*;
 
 public class MatrixGenerator{
     private final int emptyRowFraction;
@@ -72,7 +72,7 @@ public class MatrixGenerator{
     public static void print(Matrix matrix){
         try{
             PrintWriter wr=new PrintWriter(RESULT_NAME);
-            wr.println(matrix.toString());
+            wr.println(matrix);
             wr.close();
         }catch(IOException e){
             System.out.println("Fail to generate matrix file: "+e);

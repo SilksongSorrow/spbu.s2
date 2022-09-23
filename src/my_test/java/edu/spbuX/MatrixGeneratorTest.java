@@ -1,19 +1,19 @@
-package edu.spbu;
+package edu.spbuX;
 
-import edu.spbu.matrix.DenseMatrix;
-import edu.spbu.matrix.Matrix;
-import edu.spbu.matrix.SparseMatrix;
+import edu.spbuX.matrix.DenseMatrix;
+import edu.spbuX.matrix.Matrix;
+import edu.spbuX.matrix.SparseMatrix;
 import org.junit.After;
 import org.junit.Test;
 
 import java.io.*;
 import java.util.function.Supplier;
 
-import static edu.spbu.TestUtils.testN;
+import static edu.spbuX.TestUtils.testN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import static edu.spbu.matrix.MatrixConst.*;
+import static edu.spbuX.matrix.MatrixConst.*;
 
 public class MatrixGeneratorTest{
     public static final String filename="test.txt";

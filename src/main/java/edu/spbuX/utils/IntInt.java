@@ -1,7 +1,7 @@
 //Uzery Game Studio 2019-2022
 //documentation = false
 
-package edu.spbu.utils;
+package edu.spbuX.utils;
 
 public final class IntInt{
     private final int x, y;

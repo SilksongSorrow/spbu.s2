@@ -1,7 +1,7 @@
 //Uzery Game Studio 2019-2022
 //documentation = false
 
-package edu.spbu.matrix;
+package edu.spbuX.matrix;
 
 public class ThreadTest{
     private static final Object lock=new Object();

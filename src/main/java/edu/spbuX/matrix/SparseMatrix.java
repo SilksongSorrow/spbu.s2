@@ -1,10 +1,10 @@
-package edu.spbu.matrix;
+package edu.spbuX.matrix;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static edu.spbu.matrix.DSMatrixUtils.*;
+import static edu.spbuX.matrix.DSMatrixUtils.*;
 
 /**
  * Разряженная матрица
@@ -99,6 +99,7 @@ public class SparseMatrix implements Matrix{
     @Override
     public int get(int x,int y){
         if(!strokes.containsKey(y))return 0;
+        if(!rows.containsKey(x))return 0;
         return strokes.get(y).stream().filter(o->o.x()==x).findFirst().orElse(SparseMatrixValue.ZERO).value();
     }
 
@@ -134,6 +135,13 @@ public class SparseMatrix implements Matrix{
         throw new IllegalArgumentException("wrong type: "+m);
     }
 
+    @Override
+    public int hashCode(){
+        int a=get(0,0)*31+get(0,height-1);
+        a=a*31+get(width-1,0);
+        return a*31+get(width-1,height-1);
+    }
+
     /**
      * сравнивает с обоими вариантами
      *
@@ -142,6 +150,7 @@ public class SparseMatrix implements Matrix{
      */
     @Override
     public boolean equals(Object o){
+        if(o==null)return false;
         if(!(o instanceof Matrix)) return false;
         if(!equalsWH((Matrix)o)) return false;
         if(o instanceof SparseMatrix) return equalsSparse((SparseMatrix)o);

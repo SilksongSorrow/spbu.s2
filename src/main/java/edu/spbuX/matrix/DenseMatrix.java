@@ -1,4 +1,4 @@
-package edu.spbu.matrix;
+package edu.spbuX.matrix;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
-import static edu.spbu.matrix.DSMatrixUtils.*;
+import static edu.spbuX.matrix.DSMatrixUtils.*;
 
 /**
  * Плотная матрица
@@ -90,6 +90,13 @@ public class DenseMatrix implements Matrix{
         throw new IllegalArgumentException("wrong type: "+m);
     }
 
+    @Override
+    public int hashCode(){
+        int a=input[0][0]*31+input[0][height-1];
+        a=a*31+input[width-1][0];
+        return a*31+input[width-1][height-1];
+    }
+
     /**
      * сравнивает с обоими вариантами
      *
@@ -98,6 +105,7 @@ public class DenseMatrix implements Matrix{
      */
     @Override
     public boolean equals(Object o){
+        if(o==null)return false;
         if(!(o instanceof Matrix)) return false;
         if(!equalsWH((Matrix)o)) return false;
         if(o instanceof SparseMatrix) return equalsSparse((SparseMatrix)o);

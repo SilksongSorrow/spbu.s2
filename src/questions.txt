@@ -1,0 +1,13 @@
+1) auto-test
+
+2) hashcode matrix
+
+3) different tests (in IntSortTest, for example)
+
+4)
+
+***
+
+1) library outside project
+
+2)

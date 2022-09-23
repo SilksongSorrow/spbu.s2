@@ -1,16 +1,16 @@
-package edu.spbu.matrix;
+package edu.spbuX.matrix;
 
-import edu.spbu.MatrixGenerator;
-import edu.spbu.TestUtils;
+import edu.spbuX.MatrixGenerator;
+import edu.spbuX.TestUtils;
 import org.junit.Test;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static edu.spbu.MatrixGenerator.*;
-import static edu.spbu.TestUtils.testN;
+import static edu.spbuX.MatrixGenerator.*;
+import static edu.spbuX.TestUtils.testN;
 
-import static edu.spbu.matrix.MatrixConst.*;
+import static edu.spbuX.matrix.MatrixConst.*;
 
 public class MatrixTest{
     /**
@@ -45,7 +45,7 @@ public class MatrixTest{
             long startTime=System.nanoTime();
             Matrix m=m1.mul(m2);
             long tt=System.nanoTime()-startTime;
-            if(!expected.toString().equals(m.toString())){
+            if(!expected.equals(m)){
                 throw new IllegalArgumentException("\n\n"+m1+"\n\n"+m2+"\n\n"+expected+"\n\n"+m);
             }
             return tt;
@@ -60,7 +60,7 @@ public class MatrixTest{
             long startTime=System.nanoTime();
             Matrix m=m1.dMul(m2);
             long tt=System.nanoTime()-startTime;
-            if(!expected.toString().equals(m.toString())){
+            if(!expected.equals(m)){
                 throw new IllegalArgumentException("\n\n"+m1+"\n\n"+m2+"\n\n"+expected+"\n\n"+m);
             }
             return tt;

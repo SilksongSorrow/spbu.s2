@@ -1,6 +1,6 @@
-package edu.spbu.sort;
+package edu.spbuX.sort;
 
-import edu.spbu.utils.IntInt;
+import edu.spbuX.utils.IntInt;
 
 import java.util.*;
 

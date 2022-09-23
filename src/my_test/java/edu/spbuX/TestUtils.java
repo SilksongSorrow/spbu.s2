@@ -1,9 +1,9 @@
 //Uzery Game Studio 2019-2022
 //documentation = false
 
-package edu.spbu;
+package edu.spbuX;
 
-import edu.spbu.utils.LongLong;
+import edu.spbuX.utils.LongLong;
 
 import java.util.Random;
 import java.util.function.Supplier;

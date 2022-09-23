@@ -1,6 +1,6 @@
-package edu.spbu.sort;
+package edu.spbuX.sort;
 
-import edu.spbu.TestUtils;
+import edu.spbuX.TestUtils;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static edu.spbu.TestUtils.*;
+import static edu.spbuX.TestUtils.*;
 import static org.junit.Assert.*;
 
 public class IntSortTest{

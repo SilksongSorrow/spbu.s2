@@ -1,8 +1,8 @@
-package edu.spbu;
+package edu.spbuX;
 
-import edu.spbu.matrix.*;
+import edu.spbuX.matrix.*;
 
-import static edu.spbu.matrix.MatrixConst.*;
+import static edu.spbuX.matrix.MatrixConst.*;
 
 public class MatrixPerfTest{
     public static void main(String[] s){
